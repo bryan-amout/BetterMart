@@ -36,8 +36,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.BetterMart.navigation.ROUT_HOME
 import com.example.bettermart.R
+import com.example.bettermart.navigation.VIEW_CLOTHING_URL
+import com.example.bettermart.navigation.VIEW_ELECTRONICS_URL
+import com.example.bettermart.navigation.VIEW_FOODSTUFF_URL
+import com.example.bettermart.navigation.VIEW_FURNITURE_URL
+import com.example.bettermart.navigation.VIEW_KITCHENWARE_URL
+import com.example.bettermart.navigation.VIEW_PERSONALEFFECTS_URL
+import com.example.bettermart.navigation.VIEW_STATIONERY_URL
+import com.example.bettermart.navigation.VIEW_TOYS_URL
 import com.example.bettermart.ui.theme.Amber
 import com.example.bettermart.ui.theme.White
 
@@ -84,7 +91,7 @@ fun DashboardScreen(navController: NavController){
                     Card(modifier = Modifier
                         .width(160.dp)
                         .height(180.dp)
-                        .clickable { navController.navigate(ROUT_HOME) },
+                        .clickable { navController.navigate(VIEW_FURNITURE_URL) },
                         elevation = CardDefaults.cardElevation(20.dp),
                     ){
                         Column {
@@ -114,7 +121,7 @@ fun DashboardScreen(navController: NavController){
                     Card(modifier = Modifier
                         .width(160.dp)
                         .height(180.dp)
-                        .clickable { navController.navigate(ROUT_HOME) },
+                        .clickable { navController.navigate(VIEW_FOODSTUFF_URL) },
                         elevation = CardDefaults.cardElevation(20.dp),
                     ) {
                         Column {
@@ -149,6 +156,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_CLOTHING_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
                     ){
@@ -178,6 +186,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_STATIONERY_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
 
@@ -213,6 +222,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_KITCHENWARE_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
                     ){
@@ -242,6 +252,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_TOYS_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
                     ) {
@@ -276,6 +287,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_ELECTRONICS_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
                     ){
@@ -305,6 +317,7 @@ fun DashboardScreen(navController: NavController){
                     //card
                     Card(modifier = Modifier
                         .width(160.dp)
+                        .clickable { navController.navigate(VIEW_PERSONALEFFECTS_URL)}
                         .height(180.dp),
                         elevation = CardDefaults.cardElevation(20.dp),
                     ) {
