@@ -56,7 +56,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,8 +66,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.bettermart.R
 import com.example.bettermart.data.ToysViewModel
 import com.example.bettermart.navigation.ADD_TOYS_URL
+import com.example.bettermart.ui.theme.Amber1
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,19 +124,7 @@ fun AddtoysScreen(navController: NavController){
                 }
             },
 
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { /*TODO*/ },
-                    containerColor = Color.LightGray
-                ) {
-                    IconButton(onClick = {
-                        navController.navigate(ADD_TOYS_URL)
-                    }) {
-                        Icon(imageVector = Icons.Default.Add,
-                            contentDescription = "menu")
-                    }
-                }
-            },
+
             //Content Section
             content = @Composable{
                 Column(
@@ -145,6 +137,30 @@ fun AddtoysScreen(navController: NavController){
 
 
                     Spacer(modifier = Modifier.height(50.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.cart),
+                        contentDescription = "home",
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(shape = CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "BetterMart",
+                        fontSize = 35.sp,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Magenta)
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(text = "Easier shopping, Better Shopping",
+                        fontSize = 16.sp,
+                        fontStyle = FontStyle.Italic,
+                        fontFamily = FontFamily.SansSerif,
+                        color = Color.Black)
+                    Spacer(modifier = Modifier.height(10.dp))
+
 
                     Text(
                         text = "Upload Here!",
@@ -164,6 +180,9 @@ fun AddtoysScreen(navController: NavController){
                         value = productName,
                         onValueChange = { productName = it },
                         label = { Text(text = "Product name ") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -173,6 +192,9 @@ fun AddtoysScreen(navController: NavController){
                         value = productQuantity,
                         onValueChange = { productQuantity = it },
                         label = { Text(text = "Product quantity e.g 250g ") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -182,6 +204,9 @@ fun AddtoysScreen(navController: NavController){
                         value = productPrice,
                         onValueChange = { productPrice = it },
                         label = { Text(text = "Product price e.g Ksh.500") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -191,6 +216,9 @@ fun AddtoysScreen(navController: NavController){
                         value = phone,
                         onValueChange = { phone = it },
                         label = { Text(text = "Phone") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -231,25 +259,6 @@ val bottomNavItems = listOf(
         badges=0
     ),
 
-
-
-    BottomNavItem(
-        title = "Upload",
-        route="add_products",
-        selectedIcon= Icons.Filled.Add,
-        unselectedIcon= Icons.Outlined.Add,
-        hasNews = true,
-        badges=0
-    ),
-
-    BottomNavItem(
-        title = "View",
-        route="view_products",
-        selectedIcon= Icons.Filled.Info,
-        unselectedIcon= Icons.Outlined.Info,
-        hasNews = true,
-        badges=1
-    ),
 
 
     )
@@ -318,15 +327,18 @@ fun ImagePicker(modifier: Modifier = Modifier, context: Context, navController: 
 
             },
                 shape = RoundedCornerShape(5.dp),
-                colors = ButtonDefaults.buttonColors(Color.Gray)) {
+                colors = ButtonDefaults.buttonColors(Amber1)) {
                 Text(text = "Upload")
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
         }
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun AddtoysScreenPreview(){
+fun AddtoysScreenPreview() {
     AddtoysScreen(navController = rememberNavController())
+}
 

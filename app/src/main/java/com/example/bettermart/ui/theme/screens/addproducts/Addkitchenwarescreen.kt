@@ -84,7 +84,7 @@ fun AddkitchenwareScreen(navController: NavController){
                 NavigationBar (
                     containerColor = Color.LightGray,
                     contentColor = Color.Black){
-                    bottomNavItems.forEachIndexed { index, bottomNavItem ->
+                    bottomNavItems5.forEachIndexed { index, bottomNavItem ->
                         NavigationBarItem(
                             selected = index == selected,
                             onClick = {
@@ -120,19 +120,7 @@ fun AddkitchenwareScreen(navController: NavController){
                 }
             },
 
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { /*TODO*/ },
-                    containerColor = Color.LightGray
-                ) {
-                    IconButton(onClick = {
-                        navController.navigate(ADD_KITCHENWARE_URL)
-                    }) {
-                        Icon(imageVector = Icons.Default.Add,
-                            contentDescription = "menu")
-                    }
-                }
-            },
+
             //Content Section
             content = @Composable{
                 Column(
@@ -164,6 +152,9 @@ fun AddkitchenwareScreen(navController: NavController){
                         value = productName,
                         onValueChange = { productName = it },
                         label = { Text(text = "Product name ") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -173,6 +164,9 @@ fun AddkitchenwareScreen(navController: NavController){
                         value = productQuantity,
                         onValueChange = { productQuantity = it },
                         label = { Text(text = "Product quantity e.g 250g ") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -182,6 +176,9 @@ fun AddkitchenwareScreen(navController: NavController){
                         value = productPrice,
                         onValueChange = { productPrice = it },
                         label = { Text(text = "Product price e.g Ksh.500") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -191,6 +188,9 @@ fun AddkitchenwareScreen(navController: NavController){
                         value = phone,
                         onValueChange = { phone = it },
                         label = { Text(text = "Phone") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -201,7 +201,7 @@ fun AddkitchenwareScreen(navController: NavController){
                     //---------------------IMAGE PICKER START-----------------------------------//
 
                     var modifier = Modifier
-                    ImagePicker(modifier,context, navController, productName.trim(), productQuantity.trim(), productPrice.trim(),phone.trim())
+                    ImagePicker5(modifier,context, navController, productName.trim(), productQuantity.trim(), productPrice.trim(),phone.trim())
 
                     //---------------------IMAGE PICKER END-----------------------------------//
 
@@ -221,7 +221,7 @@ fun AddkitchenwareScreen(navController: NavController){
 
 
 
-val bottomNavItems = listOf(
+val bottomNavItems5 = listOf(
     BottomNavItem(
         title = "Home",
         route="home",
@@ -233,30 +233,13 @@ val bottomNavItems = listOf(
 
 
 
-    BottomNavItem(
-        title = "Upload",
-        route="add_products",
-        selectedIcon= Icons.Filled.Add,
-        unselectedIcon= Icons.Outlined.Add,
-        hasNews = true,
-        badges=0
-    ),
-
-    BottomNavItem(
-        title = "View",
-        route="view_products",
-        selectedIcon= Icons.Filled.Info,
-        unselectedIcon= Icons.Outlined.Info,
-        hasNews = true,
-        badges=1
-    ),
 
 
     )
 
 
 
-data class BottomNavItem(
+data class BottomNavItem5(
     val title :String,
     val route :String,
     val selectedIcon: ImageVector,
@@ -267,7 +250,7 @@ data class BottomNavItem(
 
 
 @Composable
-fun ImagePicker(modifier: Modifier = Modifier, context: Context, navController: NavController, name:String, quantity:String, price:String, phone:String) {
+fun ImagePicker5(modifier: Modifier = Modifier, context: Context, navController: NavController, name:String, quantity:String, price:String, phone:String) {
     var hasImage by remember { mutableStateOf(false) }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -327,7 +310,8 @@ fun ImagePicker(modifier: Modifier = Modifier, context: Context, navController: 
 
 @Composable
 @Preview(showBackground = true)
-fun AddkitchenwareScreenPreview(){
+fun AddkitchenwareScreenPreview() {
     AddkitchenwareScreen(navController = rememberNavController())
+}
 
 

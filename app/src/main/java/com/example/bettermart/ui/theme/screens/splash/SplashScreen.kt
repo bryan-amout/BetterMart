@@ -1,4 +1,4 @@
-package com.example.bettermart.ui.theme.screens.about
+package com.example.bettermart.ui.theme.screens.splash
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -25,7 +25,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.bettermart.R
-import com.example.bettermart.navigation.ROUT_HOME
+import com.example.bettermart.navigation.ROUT_DASHBOARD
+import com.example.bettermart.navigation.ROUT_LOGIN
 import com.example.bettermart.ui.theme.Amber
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ fun SplashScreen(navController: NavController){
         var coroutineScope = rememberCoroutineScope()
         coroutineScope.launch {
             delay(2000)
-            navController.navigate(ROUT_HOME)
+            navController.navigate(ROUT_LOGIN)
         }
         //Lottie Animation
         val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.shop))

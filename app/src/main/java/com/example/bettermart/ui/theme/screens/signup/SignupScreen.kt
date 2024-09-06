@@ -34,21 +34,26 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.BetterMart.navigation.ROUT_DETAILS
-import com.example.BetterMart.navigation.ROUT_LOGIN
+
 import com.example.bettermart.R
+import com.example.bettermart.data.AuthViewModel
+import com.example.bettermart.navigation.ROUT_LOGIN
+import com.example.bettermart.navigation.ROUT_SIGNUP
 import com.example.bettermart.ui.theme.Amber
+import com.example.bettermart.ui.theme.Amber1
 import com.example.bettermart.ui.theme.newgreen
 
 
@@ -60,7 +65,9 @@ fun SignupScreen(navController: NavController){
         .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(50.dp))
+
+
         Image(
             painter = painterResource(id = R.drawable.cart),
             contentDescription = "home",
@@ -71,19 +78,19 @@ fun SignupScreen(navController: NavController){
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "BetterMart",
-            fontSize = 40.sp,
-            fontFamily = FontFamily.Cursive,
+            fontSize = 35.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.ExtraBold,
             color = Color.Magenta)
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         Text(text = "Easier shopping, Better Shopping",
-                fontSize = 16.sp,
+            fontSize = 16.sp,
             fontStyle = FontStyle.Italic,
             fontFamily = FontFamily.SansSerif,
             color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Add Account",
-            fontSize = 20.sp,
-            fontFamily = FontFamily.Default,
-            color = Color.Black)
 
         var name by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
@@ -96,7 +103,7 @@ fun SignupScreen(navController: NavController){
             label = { Text(text = "Fullname")},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "Person")},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
@@ -107,7 +114,7 @@ fun SignupScreen(navController: NavController){
             label = { Text(text = "Email Address")},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Account")},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
@@ -118,7 +125,7 @@ fun SignupScreen(navController: NavController){
             label = { Text(text = "Password")},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock")},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation()
@@ -130,21 +137,26 @@ fun SignupScreen(navController: NavController){
             label = { Text(text = "Confirm Password")},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock")},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
 
         )
         Spacer(modifier = Modifier.height(10.dp))
+
+        val context = LocalContext.current
+        val authViewModel = AuthViewModel(navController, context)
+
+
         Button(
-            onClick = { navController.navigate(ROUT_DETAILS)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .padding(start = 20.dp, end = 20.dp),
-            colors = ButtonDefaults.buttonColors(newgreen),
-            shape = RoundedCornerShape(20.dp)
+            onClick = {
+                authViewModel.signup(name, email, password,confpassword)
+
+            },
+            modifier = Modifier,
+            colors = ButtonDefaults.buttonColors(Amber1),
+            shape = RoundedCornerShape(5.dp)
 
 
 
@@ -155,21 +167,14 @@ fun SignupScreen(navController: NavController){
         }
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(
-            onClick = { navController.navigate(ROUT_LOGIN)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .padding(start = 20.dp, end = 20.dp),
-            colors = ButtonDefaults.buttonColors(newgreen),
-            shape = RoundedCornerShape(20.dp)
 
-
-
-        ) {
-            Text(text = "Login")
-
-        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "Already have an account? Go to Login",
+            fontSize = 18.sp,
+            fontFamily = FontFamily.SansSerif,
+            modifier = Modifier.clickable {navController.navigate(ROUT_LOGIN)},
+            textAlign = TextAlign.Center,
+            color = Color.Black)
 
 
 

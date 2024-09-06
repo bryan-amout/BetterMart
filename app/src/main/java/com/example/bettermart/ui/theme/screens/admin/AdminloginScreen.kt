@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bettermart.R
-import com.example.bettermart.navigation.ROUT_HOME
+import com.example.bettermart.navigation.ROUT_DASHBOARD
 import com.example.bettermart.navigation.ROUT_SIGNUP
 import com.example.bettermart.ui.theme.Amber
 import com.example.bettermart.ui.theme.White
@@ -121,7 +121,7 @@ fun AdminloginScreen(navController: NavController){
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = { navController.navigate(ROUT_HOME)},
+            onClick = { navController.navigate(ROUT_DASHBOARD)},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

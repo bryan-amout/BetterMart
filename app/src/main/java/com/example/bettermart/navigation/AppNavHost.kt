@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.BetterMart.ui.theme.screens.login.LoginScreen
 import com.example.bettermart.ui.theme.screens.about.AboutScreen
-import com.example.bettermart.ui.theme.screens.about.SplashScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddclothingScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddelectronicsScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddfoodstuffScreen
@@ -18,18 +17,20 @@ import com.example.bettermart.ui.theme.screens.addproducts.AddkitchenwareScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddpersonaleffectsScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddstationeryScreen
 import com.example.bettermart.ui.theme.screens.addproducts.AddtoysScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewclothingScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewelectronicsScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewfoodstuffScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewfurnitureScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewkitchenwareScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewpersonaleffectsScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewstationeryScreen
-import com.example.bettermart.ui.theme.screens.addproducts.ViewtoysScreen
+
 import com.example.bettermart.ui.theme.screens.admin.AdminScreen
 import com.example.bettermart.ui.theme.screens.admin.AdminloginScreen
 import com.example.bettermart.ui.theme.screens.dashboard.DashboardScreen
 import com.example.bettermart.ui.theme.screens.signup.SignupScreen
+import com.example.bettermart.ui.theme.screens.splash.SplashScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewclothingScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewelectronicsScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewfoodstuffScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewfurnitureScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewkitchenwareScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewpersonaleffectsScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewstationeryScreen
+import com.example.bettermart.ui.theme.screens.viewproducts.ViewtoysScreen
 
 
 @Composable
@@ -46,6 +47,8 @@ fun AppNavHost(
         composable(ROUT_ABOUT) {
             AboutScreen(navController = navController)
     }
+
+
         composable(ROUT_LOGIN) {
             LoginScreen(navController = navController)
         }

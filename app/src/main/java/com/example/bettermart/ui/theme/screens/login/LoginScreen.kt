@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,9 +36,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -46,9 +50,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bettermart.R
-import com.example.bettermart.navigation.ROUT_HOME
+import com.example.bettermart.data.AuthViewModel
 import com.example.bettermart.navigation.ROUT_SIGNUP
 import com.example.bettermart.ui.theme.Amber
+import com.example.bettermart.ui.theme.Amber1
 import com.example.bettermart.ui.theme.newgreen
 
 
@@ -59,9 +64,10 @@ fun LoginScreen(navController: NavController){
     Column (modifier = Modifier
         .background(color = Amber)
         .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        Spacer(modifier = Modifier.height(50.dp))
+
 
         Image(
             painter = painterResource(id = R.drawable.cart),
@@ -72,11 +78,14 @@ fun LoginScreen(navController: NavController){
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Welcome to BetterMart",
+        Text(text = "BetterMart",
             fontSize = 35.sp,
-            fontFamily =FontFamily.Cursive,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.ExtraBold,
             color = Color.Magenta)
+
         Spacer(modifier = Modifier.height(10.dp))
+
         Text(text = "Easier shopping, Better Shopping",
             fontSize = 16.sp,
             fontStyle = FontStyle.Italic,
@@ -85,15 +94,6 @@ fun LoginScreen(navController: NavController){
         Spacer(modifier = Modifier.height(10.dp))
 
 
-        Text(
-            text = "Please enter your Credentials",
-            fontSize = 20.sp,
-            fontFamily = FontFamily.SansSerif,
-            textAlign = TextAlign.Center,
-            color = Color.Black)
-
-
-        Spacer(modifier = Modifier.height(10.dp))
 
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
@@ -105,7 +105,7 @@ fun LoginScreen(navController: NavController){
             label = { Text(text = "Email Address") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Account") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
@@ -116,7 +116,7 @@ fun LoginScreen(navController: NavController){
             label = { Text(text = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp),
+                .padding(start = 20.dp, end = 20.dp),
             trailingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation()
@@ -124,22 +124,46 @@ fun LoginScreen(navController: NavController){
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(
-            onClick = { navController.navigate(ROUT_HOME)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .padding(start = 20.dp, end = 20.dp),
-            colors = ButtonDefaults.buttonColors(newgreen),
-            shape = RoundedCornerShape(20.dp)
+        val context = LocalContext.current
+        val authViewModel = AuthViewModel(navController, context)
 
-        ) {
-            Text(text = "Login")
+
+
+        Row {
+
+            Button(
+                onClick = {
+                    authViewModel.login(email, password)
+                },
+                colors = ButtonDefaults.buttonColors(Amber1),
+                shape = RoundedCornerShape(5.dp)
+
+            ) {
+                Text(text = "Login")
+
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+
+
+            Button(
+                onClick = {
+
+                    authViewModel.adminlogin(email, password)
+
+                },
+                colors = ButtonDefaults.buttonColors(Amber1),
+                shape = RoundedCornerShape(5.dp)
+
+            ) {
+                Text(text = "Login As An Admin")
+
+            }
+
 
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Do Not have an Account?Register",
-            fontSize = 20.sp,
+        Text(text = "Do not have an Account?Register",
+            fontSize = 18.sp,
             fontFamily = FontFamily.SansSerif,
             modifier = Modifier.clickable {navController.navigate(ROUT_SIGNUP)},
             textAlign = TextAlign.Center,

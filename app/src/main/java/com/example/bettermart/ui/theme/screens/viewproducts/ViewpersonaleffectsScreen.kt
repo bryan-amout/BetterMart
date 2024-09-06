@@ -1,4 +1,4 @@
-package com.example.bettermart.ui.theme.screens.addproducts
+package com.example.bettermart.ui.theme.screens.viewproducts
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -275,23 +275,22 @@ fun ProductItem(
                                     )
                                 }
                             }
-                            Row (
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.End
-                            ){
-
-                                IconButton(onClick = { productRepository.updateProduct(id) }) {
-                                    Icon(imageVector = Icons.Default.Edit, contentDescription = "", tint = Color.White)
-                                }
-
-                                Spacer(modifier = Modifier.width(5.dp))
-
-                                IconButton(onClick = { productRepository.deleteProduct(id) }) {
-                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "", tint = Color.White)
-                                }
-
-
+                            val mContext = LocalContext.current
+                            OutlinedButton(
+                                onClick = {
+                                    val simToolKitLaunchIntent =
+                                        mContext.packageManager.getLaunchIntentForPackage("com.android.stk")
+                                    simToolKitLaunchIntent?.let { mContext.startActivity(it) }
+                                },
+                                modifier = Modifier
+                                    .padding(start = 20.dp),
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Text(
+                                    text = "BUY"
+                                )
                             }
+
 
                         }
                         //end of button row

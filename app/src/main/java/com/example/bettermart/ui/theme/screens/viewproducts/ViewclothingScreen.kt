@@ -1,4 +1,4 @@
-package com.example.bettermart.ui.theme.screens.addproducts
+package com.example.bettermart.ui.theme.screens.viewproducts
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -21,9 +21,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -46,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
@@ -275,23 +280,23 @@ fun ProductItem(
                                     )
                                 }
                             }
-                            Row (
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.End
-                            ){
-
-                                IconButton(onClick = { productRepository.updateProduct(id) }) {
-                                    Icon(imageVector = Icons.Default.Edit, contentDescription = "", tint = Color.White)
-                                }
-
-                                Spacer(modifier = Modifier.width(5.dp))
-
-                                IconButton(onClick = { productRepository.deleteProduct(id) }) {
-                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "", tint = Color.White)
-                                }
-
-
+                            val mContext = LocalContext.current
+                            OutlinedButton(
+                                onClick = {
+                                    val simToolKitLaunchIntent =
+                                        mContext.packageManager.getLaunchIntentForPackage("com.android.stk")
+                                    simToolKitLaunchIntent?.let { mContext.startActivity(it) }
+                                },
+                                modifier = Modifier
+                                    .padding(start = 20.dp),
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Text(
+                                    text = "BUY"
+                                )
                             }
+
+
 
                         }
                         //end of button row
@@ -309,6 +314,31 @@ fun ProductItem(
     }
 }
 
+
+val bottomNavItems = listOf(
+    BottomNavItem(
+        title = "Home",
+        route="home",
+        selectedIcon= Icons.Filled.Home,
+        unselectedIcon= Icons.Outlined.Home,
+        hasNews = false,
+        badges=0
+    ),
+
+
+
+    )
+
+
+
+data class BottomNavItem(
+    val title :String,
+    val route :String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon : ImageVector,
+    val hasNews :Boolean,
+    val badges :Int
+)
 
 
 @Composable

@@ -1,8 +1,10 @@
 package com.example.bettermart.ui.theme.screens.admin
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,18 +20,40 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,312 +69,417 @@ import com.example.bettermart.navigation.ADD_KITCHENWARE_URL
 import com.example.bettermart.navigation.ADD_PERSONALEFFECTS_URL
 import com.example.bettermart.navigation.ADD_STATIONERY_URL
 import com.example.bettermart.navigation.ADD_TOYS_URL
+import com.example.bettermart.navigation.VIEW_CLOTHING_URL
+import com.example.bettermart.navigation.VIEW_FOODSTUFF_URL
+import com.example.bettermart.navigation.VIEW_FURNITURE_URL
+import com.example.bettermart.navigation.VIEW_KITCHENWARE_URL
+import com.example.bettermart.navigation.VIEW_STATIONERY_URL
+import com.example.bettermart.navigation.VIEW_TOYS_URL
 import com.example.bettermart.ui.theme.Amber
+import com.example.bettermart.ui.theme.Amber1
 import com.example.bettermart.ui.theme.White
+import com.example.bettermart.ui.theme.screens.dashboard.bottomNavItems
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AdminScreen(navController: NavController){
-    Column (modifier = Modifier
-        .fillMaxSize()
-        .background(Amber),
-        verticalArrangement = Arrangement.Top,
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+        ,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Spacer(modifier = Modifier.height(10.dp))
-        Image(
-            painter = painterResource(id = R.drawable.cart),
-            contentDescription = "home",
-            modifier = Modifier
-                .size(150.dp)
-                .clip(shape = CircleShape),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "BetterMart",
-            fontSize = 40.sp,
-            fontFamily = FontFamily.Cursive,
-            color = Color.Magenta)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Easier shopping, Better Shopping",
-            fontSize = 16.sp,
-            fontStyle = FontStyle.Italic,
-            fontFamily = FontFamily.SansSerif,
-            color = Color.Black)
-        Column (modifier = Modifier.verticalScroll(rememberScrollState())){
-            //Start Card
-            Card (modifier = Modifier
-                .fillMaxWidth()
-                .height(700.dp), shape = RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp), colors = CardDefaults.cardColors(
-                White)){
+    ) {
 
+        var selected by remember { mutableIntStateOf(0) }
+        Scaffold(
+            bottomBar = {
+                NavigationBar (
+                    containerColor = Amber1
+                ){
+                    bottomNavItems.forEachIndexed { index, bottomNavItem ->
+                        NavigationBarItem(
+                            selected = index == selected,
+                            onClick = {
+                                selected = index
+                                navController.navigate(bottomNavItem.route)
+                            },
+                            icon = {
+                                BadgedBox(
+                                    badge = {
+                                        if (bottomNavItem.badges != 0) {
+                                            Badge (containerColor = Color.White){
+                                                Text(text = bottomNavItem.badges.toString())
+                                            }
+                                        } else if (bottomNavItem.hasNews) {
+                                            Badge()
+                                        }
+                                    }
+                                ) {
+                                    Icon(imageVector =
+                                    if (index == selected)
+                                        bottomNavItem.selectedIcon
+                                    else
+                                        bottomNavItem.unselectedIcon,
+                                        contentDescription = bottomNavItem.title)
+                                }
 
-
-                //Row1
-                Row (modifier = Modifier.padding(20.dp)){
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .height(180.dp)
-                        .clickable { navController.navigate(ADD_FURNITURE_URL) },
-                        elevation = CardDefaults.cardElevation(20.dp),
-                    ){
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.furniture),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
-
+                            },
+                            label = {
+                                Text(text = bottomNavItem.title)
                             }
-                            Text(
-                                text = "Furniture",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
+                        )
                     }
-                    //end card
-                    Spacer(modifier = Modifier.width(20.dp))
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .height(180.dp)
-                        .clickable { navController.navigate(ADD_FOODSTUFF_URL) },
-                        elevation = CardDefaults.cardElevation(20.dp),
+                }
+            },
+
+
+
+            //Content Section
+            content = @Composable {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+
                     ) {
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
+                    //Body of the screen
 
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.foodstuff),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
+                    //Column1
 
-                            }
-                            Text(
-                                text = "Foodstuff",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
-                    }
-                    //end card
-
-
-                }
-                //End of row
-
-                //Row2
-                Row (modifier = Modifier.padding(20.dp)){
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_CLOTHING_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
-                    ){
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.clothing),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
-
-                            }
-                            Text(
-                                text = "clothings",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
-                    }
-                    //end card
-                    Spacer(modifier = Modifier.width(20.dp))
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_STATIONERY_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
-
-                        ) {
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.stationery),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
-
-                            }
-                            Text(
-                                text = "Stationery",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
-                    }
-                    //end card
-
-
-                }
-                //Row2end
-                //ROw3
-                Row (modifier = Modifier.padding(20.dp)){
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_KITCHENWARE_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
-                    ){
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.kitchenware),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
-
-                            }
-                            Text(
-                                text = "KitchenWare",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
-                    }
-                    //end card
-                    Spacer(modifier = Modifier.width(20.dp))
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_TOYS_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Amber)
+                            .height(160.dp)
+                            .padding(top = 28.dp, start = 20.dp, end = 20.dp)
                     ) {
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
 
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.toys),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Admin Section",
+                            color = Color.White,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
 
-                            }
-                            Text(
-                                text = "Toys",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
-
-                        }
-
-                    }
-                    //end card
+                        Spacer(modifier = Modifier.height(5.dp))
 
 
-                }
-                //Row3end
-                //ROw4
-                Row (modifier = Modifier.padding(20.dp)){
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_ELECTRONICS_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
-                    ){
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
 
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.electronics),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Easier Shopping,Better Shopping",
+                            color = Color.White,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
 
-                            }
-                            Text(
-                                text = "Electronics",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
-                            )
 
-                        }
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        //Searchbar
+                        var search by remember { mutableStateOf("") }
+                        TextField(
+                            value = search,
+                            onValueChange = { search = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 20.dp),
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Search"
+                                )
+                            },
+                            placeholder = { Text(text = "Search for products") }
+                        )
+
+                        //End of searchbar
 
                     }
-                    //end card
-                    Spacer(modifier = Modifier.width(20.dp))
-                    //card
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .clickable { navController.navigate(ADD_PERSONALEFFECTS_URL)}
-                        .height(180.dp),
-                        elevation = CardDefaults.cardElevation(20.dp),
+                    //Colum1-End
+
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+
+                    Column(
+                        modifier = Modifier
+                            .padding(start = 20.dp)
+                            .verticalScroll(rememberScrollState())
                     ) {
-                        Column {
-                            Spacer(modifier = Modifier.height(10.dp))
+                        Row {
 
-                            Box (
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ){
-                                Image(painter = painterResource(id = R.drawable.personal),
-                                    contentDescription ="home", Modifier.size(100.dp) )
-                                Spacer(modifier = Modifier.height(10.dp))
-
-                            }
                             Text(
-                                text = "Personal effects",
-                                modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
-                                fontSize = 18.sp
+                                text = "Product Categories",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+
+                            Text(
+                                text = "Upload Products",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                textAlign = TextAlign.End,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { }
                             )
 
                         }
 
+                        Spacer(modifier = Modifier.height(20.dp))
+
+
+                        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_FURNITURE_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.furniture),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "Furniture",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+                            //End of card
+                            Spacer(modifier = Modifier.width(20.dp))
+
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_FOODSTUFF_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.foodstuff),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "Foodstuff",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+
+
+                            Spacer(modifier = Modifier.width(20.dp))
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_CLOTHING_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.furniture),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "Clothing",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+
+                        }
+
+
+                        Spacer(modifier = Modifier.height(30.dp))
+
+                        Row {
+
+                            Text(
+                                text = "Other Products",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+
+                            Text(
+                                text = "Upload More Products",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_STATIONERY_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.stationery),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "Stationery",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+                            //End of card
+                            Spacer(modifier = Modifier.width(20.dp))
+
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_KITCHENWARE_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.kitchenware),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "KItchenware",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+
+
+                            Spacer(modifier = Modifier.width(20.dp))
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                //Card 1
+                                Card(
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .width(150.dp)
+                                        .clickable { navController.navigate(ADD_TOYS_URL) }
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.toys),
+                                            contentDescription = "home",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop
+                                        )
+
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = "Toys",
+                                    fontSize = 18.sp
+                                )
+
+                            }
+
+
+                        }
+
+
+                        Spacer(modifier = Modifier.height(120.dp))
+
+
                     }
-                    //end card
 
 
                 }
-                //Row4end
+
+
 
             }
-            //End Card
-        }
+        )
+
 
 
 
@@ -358,7 +487,70 @@ fun AdminScreen(navController: NavController){
     }
 
 
+
+
+
+
 }
+
+
+val bottomNavItems = listOf(
+    BottomNavItem(
+        title = "Home",
+        route="dashboard",
+        selectedIcon=Icons.Filled.Home,
+        unselectedIcon=Icons.Outlined.Home,
+        hasNews = false,
+        badges=0
+    ),
+
+    BottomNavItem(
+        title = "Products",
+        route="dashboard",
+        selectedIcon=Icons.Filled.Star,
+        unselectedIcon=Icons.Outlined.Star,
+        hasNews = false,
+        badges=0
+    ),
+
+    BottomNavItem(
+        title = "Make Order",
+        route="dashboard",
+        selectedIcon=Icons.Filled.Star,
+        unselectedIcon=Icons.Outlined.Star,
+        hasNews = false,
+        badges=0
+    ),
+
+    BottomNavItem(
+        title = "Login",
+        route="login",
+        selectedIcon=Icons.Filled.Person,
+        unselectedIcon=Icons.Outlined.Person,
+        hasNews = false,
+        badges=0
+    ),
+
+
+
+
+
+
+    )
+
+
+
+data class BottomNavItem(
+    val title :String,
+    val route :String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon : ImageVector,
+    val hasNews :Boolean,
+    val badges :Int
+)
+
+
+
 @Composable
 @Preview(showBackground = true)
 fun AdminScreenPreview(){
