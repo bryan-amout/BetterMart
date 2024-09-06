@@ -208,6 +208,9 @@ fun AddfurnitureScreen(navController: NavController){
                         value = productPrice,
                         onValueChange = { productPrice = it },
                         label = { Text(text = "Product price e.g Ksh.500") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
